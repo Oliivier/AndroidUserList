@@ -10,32 +10,16 @@ import java.util.List;
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        List<UserData> list;
         super.onCreate(savedInstanceState);
         HttpToJson client = new HttpToJson();
+        List<UserData> list;
         try {
             client.run();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
-        // ATTENTE DEGUEUX A REVOIR
-        while( (list = client.getList()) == null){
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new AssertionError(e);
-            }
-
-            Log.i("Thread ","DEGUEUX" + " ");
-        }
-
-        for(UserData user : list){
-            System.out.println(user.getName()+" "+user.getPicture());
-        }
-        //ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-
-        //Glide.with(this).load(list.get(0).getPicture()).into(imageView);
-
+        // ATTENTE ACTIVE sleep pas sleep ? :/ Lancer un pong en attendant ...
+        while( (list = client.getList()) == null);
         setContentView(R.layout.activity_main);
 
         GridView gridview = (GridView) findViewById(R.id.mainGrindView);

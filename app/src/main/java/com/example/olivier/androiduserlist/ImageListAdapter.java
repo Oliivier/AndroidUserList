@@ -20,10 +20,8 @@ public class ImageListAdapter extends ArrayAdapter {
 
     public ImageListAdapter(Context context, List<UserData> users) {
         super(context, R.layout.listview_item_image, users);
-
         this.context = context;
         this.users = users;
-
         inflater = LayoutInflater.from(context);
     }
     @Override
