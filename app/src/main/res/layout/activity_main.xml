@@ -12,7 +12,8 @@
     />
  -->
 <GridView
-    android:id="@+id/usage_example_gridview"
+    android:id="@+id/mainGrindView"
+    android:background="#6dc7ea"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

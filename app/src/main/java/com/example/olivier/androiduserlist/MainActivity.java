@@ -1,68 +1,31 @@
 
 package com.example.olivier.androiduserlist;
-
-/*import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-
-
-public class MainActivity extends AppCompatActivity {
-    Gson gson = new GsonBuilder().create();
-    protected void onCreate(Bundle savedInstanceState) {
-        //ImageView imageView = (ImageView) findViewById(R.id.my_image_view);
-        //Glide.with(this).load("http://goo.gl/gEgYUd").into(imageView);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-}*/
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import static java.lang.Thread.sleep;
 
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        List<UserData> list = null;
+        List<UserData> list;
         super.onCreate(savedInstanceState);
         HttpToJson client = new HttpToJson();
         try {
             client.run();
         } catch (Exception e) {
+            throw new IllegalStateException(e);
         }
         // ATTENTE DEGUEUX A REVOIR
         while( (list = client.getList()) == null){
             try {
-                Thread.currentThread().sleep(3000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
+                throw new AssertionError(e);
             }
+
             Log.i("Thread ","DEGUEUX" + " ");
         }
 
@@ -75,8 +38,17 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        GridView listView = (GridView) findViewById(R.id.usage_example_gridview);
-        listView.setAdapter(new ImageListAdapter(MainActivity.this, list));
+        GridView gridview = (GridView) findViewById(R.id.mainGrindView);
+        gridview.setAdapter(new ImageListAdapter(MainActivity.this, list));
+
+        /*gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Toast.makeText(MainActivity.this, "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });/*/
     }
 }
 
@@ -115,24 +87,3 @@ public class MainActivity extends Activity {
     }
 }
 */
-
-/*public class MainActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        ImageView targetImageView = (ImageView) findViewById(R.id.imageView1);
-        String internetUrl = "http://i.imgur.com/DvpvklR.png";
-
-//        Glide.with(this).load(internetUrl).into(targetImageView);
-//        GridView gridview = (GridView) findViewById(R.id.gridview);
-//        gridview.setAdapter(new ImageAdapter(this));
-    }
-*/
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-}*/

@@ -16,18 +16,8 @@ public class ImageListAdapter extends ArrayAdapter {
     private Context context;
     private LayoutInflater inflater;
 
-    private String[] imageUrls;
     private List<UserData> users;
-    /*
-    public ImageListAdapter(Context context, String[] imageUrls) {
-        super(context, R.layout.listview_item_image, imageUrls);
 
-        this.context = context;
-        this.imageUrls = imageUrls;
-
-        inflater = LayoutInflater.from(context);
-    }
-    */
     public ImageListAdapter(Context context, List<UserData> users) {
         super(context, R.layout.listview_item_image, users);
 
@@ -41,12 +31,12 @@ public class ImageListAdapter extends ArrayAdapter {
         if (null == convertView) {
             convertView = inflater.inflate(R.layout.listview_item_image, parent, false);
         }
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.imageView1);
-        TextView textView = (TextView) convertView.findViewById(R.id.grid_inner_text);
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.user_picture);
+        TextView textView = (TextView) convertView.findViewById(R.id.user_name);
         Glide
             .with(context)
             .load(users.get(position).getPicture())
-            .into((ImageView) imageView);
+            .into(imageView);
 
         textView.setText(users.get(position).getName());
         return convertView;

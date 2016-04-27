@@ -1,7 +1,5 @@
 package com.example.olivier.androiduserlist;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -18,12 +16,6 @@ import okhttp3.Response;
 public class HttpToJson{
     List<UserData> list;
     private final OkHttpClient client = new OkHttpClient();
-/*	  String run(String url) throws IOException {
-          Request request = new Request.Builder().url(url).build();
-          Response response = client.newCall(request).execute();
-          return response.body().string();
-	 }
-*/
       public void run() throws Exception {
 
         Request request = new Request.Builder()
