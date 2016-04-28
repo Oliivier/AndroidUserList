@@ -1,14 +1,15 @@
 package com.example.olivier.androiduserlist;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
 class Users {
-	private final UserData [] results = new UserData[51];
+	private final ArrayList<UserData> results = new ArrayList<>();
 	 
 	public List<UserData> userList(){
-		return Arrays.asList(results);
+		return results;
 	}
 
 	public String toString(){

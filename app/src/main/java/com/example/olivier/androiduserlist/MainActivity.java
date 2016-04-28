@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements Callback {
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         Gson gson = new GsonBuilder().create();
+
         Users results = gson.fromJson(response.body().string(), Users.class);
         users = results.userList();
         this.runOnUiThread(new Runnable() {
