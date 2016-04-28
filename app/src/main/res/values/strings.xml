@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">AndroidUserList</string>
     <string name="action_settings">Settings</string>
-    <color name="bluewhite">#DAE1FB</color>
 </resources>

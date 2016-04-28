@@ -12,9 +12,12 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+
 public class ImageListAdapter extends ArrayAdapter {
     private Context context;
     private LayoutInflater inflater;
+    private final OkHttpClient client = new OkHttpClient();
 
     private List<UserData> users;
 

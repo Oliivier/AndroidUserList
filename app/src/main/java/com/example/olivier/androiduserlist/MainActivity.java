@@ -1,41 +1,54 @@
-
 package com.example.olivier.androiduserlist;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.GridView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.util.List;
 
-public class MainActivity extends Activity {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+public class MainActivity extends Activity implements Callback {
+    private List<UserData> users;
+    private final OkHttpClient client = new OkHttpClient();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HttpToJson client = new HttpToJson();
-        List<UserData> list;
-        try {
-            client.run();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-        // ATTENTE ACTIVE sleep pas sleep ? :/ Lancer un pong en attendant ...
-        while( (list = client.getList()) == null);
-        setContentView(R.layout.activity_main);
+        Request request = new Request.Builder()
+                .url("http://api.randomuser.me/?format=json&results=50")
+                .build();
+        client.newCall(request).enqueue(this);
+    }
 
-        GridView gridview = (GridView) findViewById(R.id.mainGrindView);
-        gridview.setAdapter(new ImageListAdapter(MainActivity.this, list));
+    @Override
+    public void onFailure(Call call, IOException e) {
+    }
 
-        /*gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        Gson gson = new GsonBuilder().create();
+        Users results = gson.fromJson(response.body().string(), Users.class);
+        users = results.userList();
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setContentView(R.layout.activity_main);
 
-                Toast.makeText(MainActivity.this, "" + position,
-                        Toast.LENGTH_SHORT).show();
+                GridView gridview = (GridView) findViewById(R.id.mainGrindView);
+                gridview.setAdapter(new ImageListAdapter(MainActivity.this, users));
             }
-        });/*/
+        });
+
     }
 }
-
 
 /**
  *
@@ -59,13 +72,10 @@ public class MainActivity extends Activity {
             "http://i.imgur.com/COzBnru.jpg",
             "http://i.imgur.com/Z3QjilA.jpg",
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-
         GridView listView = (GridView) findViewById(R.id.usage_example_gridview);
         listView.setAdapter(new ImageListAdapter(MainActivity.this, eatFoodyImages));
     }
